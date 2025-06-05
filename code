@@ -1,0 +1,61 @@
+# Simple Tic Tac Toe Game
+
+# Create an empty board
+board = [" " for _ in range(9)]
+
+# Show the board
+def print_board():
+    print()
+    print(board[0] + " | " + board[1] + " | " + board[2])
+    print("--+---+--")
+    print(board[3] + " | " + board[4] + " | " + board[5])
+    print("--+---+--")
+    print(board[6] + " | " + board[7] + " | " + board[8])
+    print()
+
+# Check for win
+def check_win(player):
+    win_conditions = [
+        [0,1,2], [3,4,5], [6,7,8],  # rows
+        [0,3,6], [1,4,7], [2,5,8],  # columns
+        [0,4,8], [2,4,6]            # diagonals
+    ]
+    for combo in win_conditions:
+        if all(board[i] == player for i in combo):
+            return True
+    return False
+
+# Main game loop
+def play_game():
+    current_player = "X"
+    moves = 0
+
+    while moves < 9:
+        print_board()
+        try:
+            move = int(input(f"Player {current_player}, enter position (1-9): ")) - 1
+        except:
+            print("Invalid input! Enter a number 1-9.")
+            continue
+
+        if move < 0 or move > 8 or board[move] != " ":
+            print("Invalid move! Try again.")
+            continue
+
+        board[move] = current_player
+        moves += 1
+
+        if check_win(current_player):
+            print_board()
+            print(f"🎉 Player {current_player} wins!")
+            return
+
+        # Switch player
+        current_player = "O" if current_player == "X" else "X"
+
+    print_board()
+    print("It's a draw!")
+
+# Start the game
+play_game()
+
